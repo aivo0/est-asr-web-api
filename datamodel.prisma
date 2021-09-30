@@ -1,0 +1,44 @@
+enum Permission {
+  ADMIN
+  USER
+  PERMISSIONUPDATE
+  ITEMDELETE
+  ITEMCREATE
+  ITEMUPDATE
+}
+
+type User {
+  id: ID! @id
+  email: String! @unique
+  name: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  files: [File!]!
+}
+
+enum ProcessingState {
+  READY
+  PROCESSING_ERROR
+  PROCESSING
+  UPLOADED
+}
+
+type File {
+  id: ID! @id
+  state: ProcessingState! @default(value: UPLOADED)
+  text: String
+  uploader: User @relation(link: INLINE)
+  path: String!
+  filename: String!
+  duration: Float
+  uploadedAt: DateTime
+  mimetype: String!
+  encoding: String!
+  externalId: String!
+  textTitle: String
+  initialTranscriptionPath: String
+  initialTranscription: String
+}
+
+scalar Upload

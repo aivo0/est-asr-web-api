@@ -1,0 +1,79 @@
+type Query {
+  filesByUser(userId: ID!): [File!]!
+  file(fileId: ID!): File
+  me: User
+  demo: File
+  uploads: [File!]!
+}
+
+type Mutation {
+  singleUpload(file: Upload!): File!
+  updateFile(id: ID!, title: String): File!
+  updateFileSpeakers(id: ID!, speakers: [String]): SuccessMessage
+  deleteFile(id: ID!): File
+  signup(email: String!, password: String!, name: String!): User!
+  signin(email: String!, password: String!): User!
+  signout: SuccessMessage
+  requestReset(email: String!): SuccessMessage
+  resetPassword(
+    resetToken: String!
+    password: String!
+    confirmPassword: String!
+  ): User!
+}
+scalar Upload
+scalar DateTime
+
+type Subscription {
+  updatedFile(id: ID!): File
+}
+
+type SuccessMessage {
+  message: String
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  files: [File!]!
+}
+
+type File {
+  id: ID!
+  state: ProcessingState!
+  text: String
+  uploader: User
+  path: String!
+  filename: String!
+  duration: Float
+  mimetype: String!
+  encoding: String!
+  uploadedAt: DateTime
+  externalId: String!
+  textTitle: String
+  initialTranscriptionPath: String
+  initialTranscription: String
+}
+
+"""
+ type Speaker {
+  id: ID!
+  data: Json
+}
+"""
+enum ProcessingState {
+  READY
+  PROCESSING_ERROR
+  PROCESSING
+  UPLOADED
+}
+
+enum Permission {
+  ADMIN
+  USER
+  PERMISSIONUPDATE
+  ITEMDELETE
+  ITEMCREATE
+  ITEMUPDATE
+}

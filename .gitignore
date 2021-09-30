@@ -1,0 +1,6 @@
+.env*
+node_modules
+transcripts
+uploads
+now.json
+db.json
